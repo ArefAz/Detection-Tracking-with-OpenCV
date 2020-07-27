@@ -1,0 +1,17 @@
+
+*.o
+
+*.avi
+*.mp4
+
+cmake-build-debug/CMakeFiles/*
+/cmake-build-debug/CMakeFiles/
+/cmake-build-debug/
+
+.models
+.python
+.videos
+models
+
+.idea
+
