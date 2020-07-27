@@ -4,8 +4,9 @@
 
 #include "MyDetector.h"
 
-MyDetector::MyDetector(const std::string &model, const std::string &config, const int inputWidth,
-                       int inputHeight, float confThreshold, float nmsThreshold, bool drawOutputs) {
+MyDetector::MyDetector(const std::string &model, const std::string &config, const std::string &classesFile,
+                       const int inputWidth, int inputHeight, float confThreshold, float nmsThreshold,
+                       bool drawOutputs) {
 
     this->net = cv::dnn::readNetFromDarknet(config, model);
     this->net.setPreferableBackend(DNN_BACKEND_OPENCV);
@@ -16,14 +17,15 @@ MyDetector::MyDetector(const std::string &model, const std::string &config, cons
     this->nmsThreshold = nmsThreshold;
     this->drawOutputs = drawOutputs;
 
-    string line, classesFile("/home/aref/CLionProjects/tracking/.models/coco.names");
+    // Reads class names and add them in the object
+    string line;
     ifstream ifs(classesFile.c_str());
-
     while (getline(ifs, line))
         this->classes.push_back(line);
 
 }
 
+// Performs the detection process
 std::vector<cv::Rect> MyDetector::detect(const cv::Mat &frame) {
 
     cv::Mat blob;
@@ -31,16 +33,21 @@ std::vector<cv::Rect> MyDetector::detect(const cv::Mat &frame) {
     vector<String> outNames = this->net.getUnconnectedOutLayersNames();
     vector<Mat> outputs;
 
+    // Create a blob from the frame
     blobFromImage(frame, blob, 1 / 255.0, inputSize, Scalar(0, 0, 0), true, false);
+    // Set the blob to the network
     this->net.setInput(blob);
+    // Run the forward pass
     this->net.forward(outputs, getOutputsNames());
+    // Process the outputs
     this->postProcess(frame, outputs);
 
+    // Return detected boxes' coordinates
     return this->boxes;
 
 }
 
-// Remove the bounding boxes with low confidence using non-maxima suppression
+// Removes the bounding boxes with low confidence using non-maximum suppression
 void MyDetector::postProcess(const Mat &frame, const std::vector<Mat> &outs) {
 
     float *data;
@@ -75,8 +82,7 @@ void MyDetector::postProcess(const Mat &frame, const std::vector<Mat> &outs) {
         }
     }
 
-    // Perform non maximum suppression to eliminate redundant overlapping boxes with
-    // lower confidences
+    // Perform non maximum suppression to eliminate redundant overlapping boxes with lower confidences
     vector<int> indices;
     NMSBoxes(boundingBoxes, confidences, confThreshold, nmsThreshold, indices);
     for (int idx : indices) {
@@ -112,7 +118,7 @@ void MyDetector::drawPredictions(int classId, float conf, int left, int top, int
     putText(frame, label, Point(left, top), FONT_HERSHEY_SIMPLEX, 0.75, Scalar(0, 0, 0), 1);
 }
 
-// Get the names of the output layers
+// Get the names of the network's output layers
 vector<String> MyDetector::getOutputsNames() {
 
     vector<String> names;

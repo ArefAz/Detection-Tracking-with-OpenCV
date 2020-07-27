@@ -11,7 +11,8 @@ cmake-build-debug/CMakeFiles/*
 .models
 .python
 .videos
-models
+
+test
 
 .idea
 

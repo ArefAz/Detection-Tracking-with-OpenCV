@@ -13,17 +13,28 @@ using namespace std;
 
 class MyTracker {
 public:
-    MyTracker(const cv::Mat &frame, const Rect2d &bbox, int trackerId, const std::string &trackerAlgorithm = "CSRT");
+    MyTracker();
+
+    MyTracker(const cv::Mat &frame, const Rect2d &bbox, int trackerId, const std::string &trackerAlgorithm = "CSRT",
+              bool doDrawId = false);
+
+    void setTracker(const cv::Mat &frame, const Rect2d &bbox, int trackerId,
+                    const std::string &trackerAlgorithm = "CSRT", bool drawId = false);
+
+    void drawId(const cv::Mat &frame) const;
 
     bool update(const cv::Mat &frame);
 
     cv::Rect getROI();
 
+    int getId() const;
+
 private:
 
     cv::Ptr<cv::Tracker> tracker;
     cv::Rect2d ROI;
-    int id;
+    int id{};
+    bool doDrawId{};
 
 };
 

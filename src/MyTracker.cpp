@@ -4,9 +4,18 @@
 
 #include "MyTracker.h"
 
-MyTracker::MyTracker(const cv::Mat &frame, const Rect2d &bbox, int trackerId, const std::string &trackerAlgorithm) {
+MyTracker::MyTracker() = default;
 
+MyTracker::MyTracker(const cv::Mat &frame, const Rect2d &bbox, int trackerId, const std::string &trackerAlgorithm,
+                     const bool doDrawId) {
 
+    this->setTracker(frame, bbox, trackerId, trackerAlgorithm, doDrawId);
+
+}
+
+// Initialize the tracker
+void MyTracker::setTracker(const Mat &frame, const Rect2d &bbox, int trackerId, const string &trackerAlgorithm,
+                           const bool drawId) {
     string trackerTypes[8] = {"BOOSTING", "MIL", "KCF", "TLD", "MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"};
 
     // Check the tracker algorithm validity
@@ -36,18 +45,31 @@ MyTracker::MyTracker(const cv::Mat &frame, const Rect2d &bbox, int trackerId, co
             this->tracker = TrackerCSRT::create();
     }
 
+    this->doDrawId = drawId;
     this->id = trackerId;
     this->ROI = bbox;
     this->tracker->init(frame, this->ROI);
-
 }
 
 bool MyTracker::update(const cv::Mat &frame) {
+    if (this->doDrawId)
+        this->drawId(frame);
     return this->tracker->update(frame, this->ROI);
 }
 
+// Returns the tracker ROI
 cv::Rect MyTracker::getROI() {
-    return this->ROI;
+    return Rect(this->ROI);
+}
+
+// Returns the tracker ID
+int MyTracker::getId() const {
+    return this->id;
+}
+
+// Shows the ID of the object above it in the given frame
+void MyTracker::drawId(const Mat &frame) const {
+    putText(frame, to_string(this->id), Point(ROI.x - 10, ROI.y - 10), FONT_HERSHEY_SIMPLEX, 0.65, Scalar(50, 255, 50), 3);
 }
 
 

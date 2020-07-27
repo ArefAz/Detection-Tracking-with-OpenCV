@@ -7,6 +7,11 @@ wget https://github.com/pjreddie/darknet/blob/master/data/coco.names?raw=true -O
 mkdir build
 cd build
 cmake ..
-./tracking [video_path] [tracking_algorithm]
+make
+./tracking [Options]
 ````
+
+Note: You need to pass a few mandatory arguments to options. 
+
+Use `./tracking --help` to see options manual
 

@@ -15,8 +15,8 @@ using namespace cv::dnn;
 class MyDetector {
 public:
 
-    MyDetector(const string &model, const string &config, int inputWidth = 320, int inputHeight = 320,
-               float confThreshold = 0.5, float nmsThreshold = 0.4, bool drawOutputs = false);
+    MyDetector(const string &model, const string &config, const std::string &classesFile, int inputWidth = 320,
+               int inputHeight = 320, float confThreshold = 0.5, float nmsThreshold = 0.4, bool drawOutputs = false);
 
     std::vector<cv::Rect> detect(const cv::Mat &frame);
 
