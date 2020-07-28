@@ -4,15 +4,16 @@
 *.avi
 *.mp4
 
-cmake-build-debug/CMakeFiles/*
-/cmake-build-debug/CMakeFiles/
-/cmake-build-debug/
+cmake-build-debug
+test
 
 .models
 .python
 .videos
-
-test
-
 .idea
+
+models/yolov3.cfg
+models/yolov3.weights
+
+
 

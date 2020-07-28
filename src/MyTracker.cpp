@@ -69,7 +69,7 @@ int MyTracker::getId() const {
 
 // Shows the ID of the object above it in the given frame
 void MyTracker::drawId(const Mat &frame) const {
-    putText(frame, to_string(this->id), Point(ROI.x - 10, ROI.y - 10), FONT_HERSHEY_SIMPLEX, 0.65, Scalar(50, 255, 50), 3);
+    putText(frame, to_string(this->id), Point(ROI.x - 10, ROI.y - 10), FONT_HERSHEY_SIMPLEX, 0.8, Scalar(50, 255, 50), 2);
 }
 
 

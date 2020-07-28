@@ -9,26 +9,25 @@
 int main(int argc, char **argv) {
 
     cout << endl;
-
     // Adding argument parser
     cxxopts::Options options("./tracking",
                              "This program detects the objects in the video, then assigns them a unique "
                              "ID and will track them while maintaining the ID of the object until it is not observable."
-                             "\n(four paths should be set before running the code "
-                             "(model file, config file, video file, and classes file) "
-                             "OTHERWISE AN EXCEPTION WILL BE THROWN\n");
+                             "\nYou should set four paths correctly before running the executable "
+                             "(model file, config file, video file, and classes file). "
+                             "OTHERWISE AN EXCEPTION WILL BE THROWN!\n");
     options.add_options()
             ("v,video", "Video file path (Required)",
-             cxxopts::value<string>()->default_value("/home/aref/CLionProjects/tracking/.videos/video.mp4"))
+             cxxopts::value<string>()->default_value("../.videos/video.mp4"))
 
             ("m,model", "Detection model path (Only Dark-net is supported) (Required)",
-             cxxopts::value<string>()->default_value("/home/aref/CLionProjects/tracking/.models/yolov3.weights"))
+             cxxopts::value<string>()->default_value("../models/yolov3.weights"))
 
             ("c,config", "Model's config file path (Required)",
-             cxxopts::value<string>()->default_value("/home/aref/CLionProjects/tracking/.models/yolov3.cfg"))
+             cxxopts::value<string>()->default_value("../models/yolov3.cfg"))
 
             ("classes", "Path to the file containing the class names for the detector (Required)",
-             cxxopts::value<string>()->default_value("/home/aref/CLionProjects/tracking/.models/coco.name"))
+             cxxopts::value<string>()->default_value("../models/coco.name"))
 
             ("t,tracker",
              R"(Tracking algorithm: {"BOOSTING", "MIL", "KCF", "TLD", "MEDIANFLOW", "GOTURN", "MOSSE", "CSRT"})",
