@@ -126,8 +126,8 @@ void MyTrackers::setTrackers(const Mat &frame, vector<cv::Rect> &boundingBoxes) 
             newTracker.setTracker(frame, newBox, closestTracker.getId(), this->trackerAlgorithm, this->drawIds);
         } else {
             newTracker.setTracker(frame, newBox, MyTrackers::nextTrackerId, this->trackerAlgorithm, this->drawIds);
+            MyTrackers::nextTrackerId++;
         }
-        MyTrackers::nextTrackerId++;
         trackersVector.emplace_back(newTracker);
 
 
