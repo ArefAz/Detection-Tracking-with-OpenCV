@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
                              "OTHERWISE AN EXCEPTION WILL BE THROWN!\n");
     options.add_options()
             ("v,video", "Video file path (Required)",
-             cxxopts::value<string>()->default_value("../.videos/video.mp4"))
+             cxxopts::value<string>()->default_value("../videos/video.mp4"))
 
             ("m,model", "Detection model path (Only Dark-net is supported) (Required)",
              cxxopts::value<string>()->default_value("../models/yolov3.weights"))

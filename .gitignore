@@ -2,7 +2,7 @@
 *.o
 
 *.avi
-*.mp4
+#*.mp4
 
 cmake-build-debug
 test
